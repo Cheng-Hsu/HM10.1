@@ -1328,6 +1328,7 @@ private:
 
   Bool       m_enableTMVPFlag;
 public:
+  
   TComSlice();
   virtual ~TComSlice(); 
   Void      initSlice       ();

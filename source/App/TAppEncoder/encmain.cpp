@@ -42,7 +42,7 @@
 
 using namespace std;
 namespace po = df::program_options_lite;
-
+int Qpset;
 //! \ingroup TAppEncoder
 //! \{
 
@@ -52,6 +52,10 @@ namespace po = df::program_options_lite;
 
 int main(int argc, char* argv[])
 {
+	
+  for(Qpset=0;Qpset<4;Qpset++){
+
+
   TAppEncTop  cTAppEncTop;
 
   // print information
@@ -90,11 +94,12 @@ int main(int argc, char* argv[])
   // ending time
   dResult = (double)(clock()-lBefore) / CLOCKS_PER_SEC;
   printf("\n Total Time: %12.3f sec.\n", dResult);
-
+	
   // destroy application encoder class
   cTAppEncTop.destroy();
-
+ }
   return 0;
+	
 }
 
 //! \}

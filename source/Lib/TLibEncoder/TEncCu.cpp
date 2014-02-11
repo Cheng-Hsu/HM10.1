@@ -959,6 +959,8 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
   assert( rpcBestCU->getPartitionSize ( 0 ) != SIZE_NONE  );
   assert( rpcBestCU->getPredictionMode( 0 ) != MODE_NONE  );
   assert( rpcBestCU->getTotalCost     (   ) != MAX_DOUBLE );
+
+
 }
 
 /** finish encoding a cu and handle end-of-slice conditions
@@ -1049,6 +1051,7 @@ Void TEncCu::finishCU( TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth )
       m_pcEntropyCoder->resetBits();      
     }
   }
+
 }
 
 /** Compute QP for each CU

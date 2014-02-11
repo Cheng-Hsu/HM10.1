@@ -124,6 +124,7 @@ private:
   UChar*        m_puhDepth;           ///< array of depths
   Int           m_unitSize;           ///< size of a "minimum partition"
   
+  
   // -------------------------------------------------------------------------------------------------------------------
   // CU data
   // -------------------------------------------------------------------------------------------------------------------
@@ -262,6 +263,7 @@ public:
   Void          setDepth              ( UInt uiIdx, UChar  uh ) { m_puhDepth[uiIdx] = uh;   }
   
   Void          setDepthSubParts      ( UInt uiDepth, UInt uiAbsPartIdx );
+ 
   
   // -------------------------------------------------------------------------------------------------------------------
   // member functions for CU data

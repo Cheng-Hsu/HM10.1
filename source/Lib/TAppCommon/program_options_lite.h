@@ -228,5 +228,5 @@ namespace df
     
   }; /* namespace: program_options_lite */
 }; /* namespace: df */
-
+extern int Qpset;
 //! \}

@@ -39,6 +39,27 @@
 #include "TEncSlice.h"
 #include <math.h>
 
+extern  int mode00;
+extern  int mode01;
+extern	int mode02;
+extern	int mode10;
+extern	int mode11;
+extern	int mode12;
+extern	int mode14;
+extern	int mode15;
+extern	int mode16;
+extern	int mode17;
+extern	int mode20;
+extern	int mode21;
+extern	int mode22;
+extern	int mode24;
+extern	int mode25;
+extern	int mode26;
+extern	int mode27;
+extern	int mode30;
+extern	int mode31;
+extern	int mode32;
+extern	int mode33;
 //! \ingroup TLibEncoder
 //! \{
 
@@ -774,6 +795,7 @@ Void TEncSlice::compressSlice( TComPic*& rpcPic )
   rpcPic->getSlice(getSliceIdx())->setSliceSegmentBits(0);
   TEncBinCABAC* pppcRDSbacCoder = NULL;
   TComSlice* pcSlice            = rpcPic->getSlice(getSliceIdx());
+
   xDetermineStartAndBoundingCUAddr ( uiStartCUAddr, uiBoundingCUAddr, rpcPic, false );
   
   // initialize cost values
@@ -1047,6 +1069,139 @@ Void TEncSlice::compressSlice( TComPic*& rpcPic )
 
       // run CU encoder
       m_pcCuEncoder->compressCU( pcCU );
+  
+   
+	int iCount = 0;  
+	int Count640 = 0;
+	int Count641 = 0;
+	int Count642 = 0;
+	int Count320 = 0;
+	int Count321 = 0;
+	int Count322 = 0;
+	int Count324 = 0;
+	int Count325 = 0;
+	int Count326 = 0;
+	int Count327 = 0;
+	int Count160 = 0;
+	int Count161 = 0;
+	int Count162 = 0;
+	int Count164 = 0;
+	int Count165 = 0;
+	int Count166 = 0;
+	int Count167 = 0;
+	int Count80 = 0;
+	int Count81 = 0;
+	int Count82 = 0;
+	int Count83 = 0;
+	
+	int iWidthInPart = g_uiMaxCUWidth >> 2;  
+	//printf("\n---------------CTU Address: %d-----------------\n", pcCU->getAddr());  
+	for (int i = 0; i < pcCU->getTotalNumPart(); i++)  
+	{  
+		if((rpcPic->getPOC())>= 1){
+
+	// if ( (iCount & (iWidthInPart - 1)) == 0)  
+		 // printf("\n");  
+		 if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 0) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 0 )
+			Count640++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 0) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 1 )
+			Count641++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 0) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 2 )
+			Count642++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 1) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 0 )
+			Count320++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 1) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 1 )
+			Count321++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 1) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 2 )
+			Count322++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 1) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 4 )
+			Count324++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 1) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 5 )
+			Count325++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 1) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 6 )
+			Count326++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 1) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 7 )
+			Count327++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 2) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 0 )
+			Count160++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 2) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 1 )
+			Count161++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 2) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 2 )
+			Count162++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 2) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 4 )
+			Count164++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 2) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 5 )
+			Count165++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 2) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 6 )
+			Count166++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 2) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 7 )
+			Count167++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 3) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 0 )
+			Count80++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 3) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 1 )
+			Count81++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 3) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 2 )
+			Count82++;
+		 else if( (pcCU->getDepth(g_auiRasterToZscan[i]) == 3) && (pcCU->getPartitionSize(g_auiRasterToZscan[i])) == 3 )
+			Count83++;
+
+		// printf(" %d", Count83);  
+			
+		 iCount++;
+	 
+		  }
+	}    
+	      mode00+=(Count640/256);
+		  mode01+=(Count641/256);
+		  mode02+=(Count642/256);
+		  mode10+=(Count320/64);
+		  mode11+=(Count321/64);
+		  mode12+=(Count322/64);
+		  mode14+=(Count324/64);
+		  mode15+=(Count325/64);
+		  mode16+=(Count326/64);
+		  mode17+=(Count327/64);
+		  mode20+=(Count160/16);
+		  mode21+=(Count161/16);
+		  mode22+=(Count162/16);
+		  mode24+=(Count164/16);
+		  mode25+=(Count165/16);
+		  mode26+=(Count166/16);
+		  mode27+=(Count167/16);
+		  mode30+=(Count80/4);
+		  mode31+=(Count81/4);
+		  mode32+=(Count82/4);
+		  mode33+=(Count83/4);
+
+		//printf("rpcPic %d ", rpcPic->m_typepartnum[0][0]); 
+		//  printf("rpcPic %d ", abc); 
+/*		
+	printf("\n---------------CTU Address(Raster Scan): %d-----------------\n", pcCU->getAddr());  
+	printf("\n---------------CU starts--------------\n");  
+	//int iCount = 0;  
+	int iWidthInPart = g_uiMaxCUWidth >> 2;  
+	for (int i = 0; i < pcCU->getTotalNumPart(); i++)  
+	{  
+	 if ( (iCount & (iWidthInPart - 1)) == 0)  
+	  printf("\n");  
+	  
+	printf("%d ", pcCU->getDepth(g_auiRasterToZscan[i]));  
+	 iCount++;  
+	}  
+	printf("\n---------------CU ends--------------\n"); 
+	
+	printf("\n---------------PU starts--------------\n");  
+    iCount = 0;  
+	for (int i = 0; i < pcCU->getTotalNumPart(); i++)  
+	{  
+	 if ( (iCount & (iWidthInPart - 1)) == 0)  
+	  printf("\n");  
+	 
+	 printf("%d ", pcCU->getPartitionSize(g_auiRasterToZscan[i]));   
+	 iCount++;  
+	}  
+	printf("\n---------------PU ends--------------\n"); 
+*/
 
 #if RATE_CONTROL_LAMBDA_DOMAIN
       if ( m_pcCfg->getUseRateCtrl() )
@@ -1122,6 +1277,7 @@ Void TEncSlice::compressSlice( TComPic*& rpcPic )
     {
       m_pcCuEncoder->compressCU( pcCU );
       m_pcCuEncoder->encodeCU( pcCU );
+
       if (m_pcCfg->getSliceMode()==FIXED_NUMBER_OF_BYTES && ( ( pcSlice->getSliceBits()+ m_pcEntropyCoder->getNumberOfWrittenBits() ) ) > m_pcCfg->getSliceArgument()<<3)
       {
         pcSlice->setNextSlice( true );
@@ -1158,6 +1314,7 @@ Void TEncSlice::compressSlice( TComPic*& rpcPic )
      CTXMem[0]->loadContexts( m_pppcRDSbacCoder[0][CI_CURR_BEST] );//ctx end of dep.slice
   }
   xRestoreWPparam( pcSlice );
+
 #if !RATE_CONTROL_LAMBDA_DOMAIN
   if(m_pcCfg->getUseRateCtrl())
   {

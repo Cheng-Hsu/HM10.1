@@ -44,9 +44,30 @@
 
 #include "TAppEncTop.h"
 #include "TLibEncoder/AnnexBwrite.h"
-
+	int mode00;
+	int mode01;
+	int mode02;
+	int mode10;
+	int mode11;
+	int mode12;
+	int mode14;
+	int mode15;
+	int mode16;
+	int mode17;
+	int mode20;
+	int mode21;
+	int mode22;
+	int mode24;
+	int mode25;
+	int mode26;
+	int mode27;
+	int mode30;
+	int mode31;
+	int mode32;
+	int mode33;
 using namespace std;
 
+extern	int Qpset;
 //! \ingroup TAppEncoder
 //! \{
 
@@ -425,7 +446,30 @@ Void TAppEncTop::encode()
 
   TComPicYuv*       pcPicYuvOrg = new TComPicYuv;
   TComPicYuv*       pcPicYuvRec = NULL;
-  
+
+	
+    mode00=0;
+	mode01=0;
+	mode02=0;
+	mode10=0;
+	mode11=0;
+	mode12=0;
+	mode14=0;
+	mode15=0;
+	mode16=0;
+	mode17=0;
+	mode20=0;
+	mode21=0;
+	mode22=0;
+	mode24=0;
+	mode25=0;
+	mode26=0;
+	mode27=0;
+	mode30=0;
+	mode31=0;
+	mode32=0;
+	mode33=0;
+
   // initialize internal class & member variables
   xInitLibCfg();
   xCreateLib();
@@ -434,9 +478,11 @@ Void TAppEncTop::encode()
   // main encoder loop
   Int   iNumEncoded = 0;
   Bool  bEos = false;
-  
-  list<AccessUnit> outputAccessUnits; ///< list of access units to write out.  is populated by the encoding process
 
+
+  list<AccessUnit> outputAccessUnits; ///< list of access units to write out.  is populated by the encoding process
+	
+  pcPicYuvOrg->m_typepartnum[0][0]=0;
   // allocate original YUV buffer
   pcPicYuvOrg->create( m_iSourceWidth, m_iSourceHeight, m_uiMaxCUWidth, m_uiMaxCUHeight, m_uiMaxCUDepth );
   
@@ -462,10 +508,10 @@ Void TAppEncTop::encode()
       m_iFrameRcvd--;
       m_cTEncTop.setFramesToBeEncoded(m_iFrameRcvd);
     }
-
+ // printf("mode00= %d\n",mode00);
     // call encoding function for one frame
     m_cTEncTop.encode( bEos, flush ? 0 : pcPicYuvOrg, m_cListPicYuvRec, outputAccessUnits, iNumEncoded );
-    
+  
     // write bistream to file if necessary
     if ( iNumEncoded > 0 )
     {
@@ -473,7 +519,7 @@ Void TAppEncTop::encode()
       outputAccessUnits.clear();
     }
   }
-
+   
   m_cTEncTop.printSummary();
 
   // delete original YUV buffer
@@ -489,6 +535,8 @@ Void TAppEncTop::encode()
   xDestroyLib();
   
   printRateSummary();
+  
+  
 
   return;
 }

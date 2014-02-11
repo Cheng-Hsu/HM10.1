@@ -38,7 +38,7 @@
 #include <list>
 #include <map>
 #include "program_options_lite.h"
-
+//extern int Qpset;
 using namespace std;
 
 //! \ingroup TAppCommon
@@ -386,7 +386,7 @@ namespace df
     }
     
     void scanLine(Options& opts, string& line)
-    {
+	{
       /* strip any leading whitespace */
       size_t start = line.find_first_not_of(" \t\n\r");
       if (start == string::npos)
@@ -418,6 +418,7 @@ namespace df
 
       /* look for start of value string -- eat up any leading whitespace */
       start = line.find_first_not_of(" \t\n\r", ++start);
+	
       if (start == string::npos)
       {
         /* error: badly formatted line */
@@ -445,6 +446,7 @@ namespace df
       value_end = line.find_last_not_of(" \t\n\r", value_end);
 
       string value;
+	   
       if (value_end >= start)
       {
         value = line.substr(start, value_end +1 - start);
@@ -454,7 +456,28 @@ namespace df
         /* error: no value */
         return;
       }
-
+	  if(option=="QP"){
+		switch(Qpset){ 
+ 
+         case 0: 
+				 value = "22";
+         
+			break; 
+         case 1: 
+                value = "27";
+        
+             break; 
+         case 2: 
+                value = "32";
+        
+             break; 
+         case 3: 
+                 value = "37";
+         
+             break; 
+       
+     } 
+	  }
       /* store the value in option */
       storePair(opts, true, false, option, value);
     }

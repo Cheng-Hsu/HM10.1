@@ -41,7 +41,28 @@
 #if FAST_BIT_EST
 #include "TLibCommon/ContextModel.h"
 #endif
-
+extern  int mode00;
+extern  int mode01;
+extern	int mode02;
+extern	int mode10;
+extern	int mode11;
+extern	int mode12;
+extern	int mode14;
+extern	int mode15;
+extern	int mode16;
+extern	int mode17;
+extern	int mode20;
+extern	int mode21;
+extern	int mode22;
+extern	int mode24;
+extern	int mode25;
+extern	int mode26;
+extern	int mode27;
+extern	int mode30;
+extern	int mode31;
+extern	int mode32;
+extern	int mode33;
+extern int Qpset;
 //! \ingroup TLibEncoder
 //! \{
 
@@ -345,13 +366,22 @@ Void TEncTop::deletePicBuffer()
  \retval  iNumEncoded         number of encoded pictures
  */
 Void TEncTop::encode(Bool flush, TComPicYuv* pcPicYuvOrg, TComList<TComPicYuv*>& rcListPicYuvRecOut, std::list<AccessUnit>& accessUnitsOut, Int& iNumEncoded )
-{
+{	FILE* QP22;
+	FILE* QP27;
+	FILE* QP32;
+	FILE* QP37;
+	FILE* test1;
+    
+	
+
   if (pcPicYuvOrg) {
     // get original YUV
     TComPic* pcPicCurr = NULL;
+	
     xGetNewPicBuffer( pcPicCurr );
     pcPicYuvOrg->copyToPic( pcPicCurr->getPicYuvOrg() );
-
+    
+	pcPicYuvOrg->m_typepartnum[0][0]=0;
     // compute image characteristics
     if ( getUseAdaptiveQP() )
     {
@@ -372,9 +402,154 @@ Void TEncTop::encode(Bool flush, TComPicYuv* pcPicYuvOrg, TComList<TComPicYuv*>&
   }
 #endif
 
+ 
+  
+ //  printf("mode00= %d\n",mode00);
+  
+   // compress GOP
+    m_cGOPEncoder.compressGOP(m_iPOCLast, m_iNumPicRcvd, m_cListPic, rcListPicYuvRecOut, accessUnitsOut);
+  switch(Qpset){ 
+ 
+         case 0: 
+					QP22=fopen("QP22.txt","w");
+					fprintf(QP22,"mode00 = %d\n",mode00);
+					fprintf(QP22,"mode01 = %d\n",mode01);
+					fprintf(QP22,"mode02 = %d\n",mode02);
+					fprintf(QP22,"mode10 = %d\n",mode10);
+					fprintf(QP22,"mode11 = %d\n",mode11);
+					fprintf(QP22,"mode12 = %d\n",mode12);
+					fprintf(QP22,"mode14 = %d\n",mode14);
+					fprintf(QP22,"mode15 = %d\n",mode15);
+					fprintf(QP22,"mode16 = %d\n",mode16);
+					fprintf(QP22,"mode17 = %d\n",mode17);
+					fprintf(QP22,"mode20 = %d\n",mode20);
+					fprintf(QP22,"mode21 = %d\n",mode21);
+					fprintf(QP22,"mode22 = %d\n",mode22);
+					fprintf(QP22,"mode24 = %d\n",mode24);
+					fprintf(QP22,"mode25 = %d\n",mode25);
+					fprintf(QP22,"mode26 = %d\n",mode26);
+					fprintf(QP22,"mode27 = %d\n",mode27);
+					fprintf(QP22,"mode30 = %d\n",mode30);
+					fprintf(QP22,"mode31 = %d\n",mode31);
+					fprintf(QP22,"mode32 = %d\n",mode32);
+					fprintf(QP22,"mode33 = %d\n",mode33);
+					fclose(QP22);
+     				
+			break; 
+         case 1: 
+					QP27=fopen("QP27.txt","w");
+					fprintf(QP27,"mode00 = %d\n",mode00);
+					fprintf(QP27,"mode01 = %d\n",mode01);
+					fprintf(QP27,"mode02 = %d\n",mode02);
+					fprintf(QP27,"mode10 = %d\n",mode10);
+					fprintf(QP27,"mode11 = %d\n",mode11);
+					fprintf(QP27,"mode12 = %d\n",mode12);
+					fprintf(QP27,"mode14 = %d\n",mode14);
+					fprintf(QP27,"mode15 = %d\n",mode15);
+					fprintf(QP27,"mode16 = %d\n",mode16);
+					fprintf(QP27,"mode17 = %d\n",mode17);
+					fprintf(QP27,"mode20 = %d\n",mode20);
+					fprintf(QP27,"mode21 = %d\n",mode21);
+					fprintf(QP27,"mode22 = %d\n",mode22);
+					fprintf(QP27,"mode24 = %d\n",mode24);
+					fprintf(QP27,"mode25 = %d\n",mode25);
+					fprintf(QP27,"mode26 = %d\n",mode26);
+					fprintf(QP27,"mode27 = %d\n",mode27);
+					fprintf(QP27,"mode30 = %d\n",mode30);
+					fprintf(QP27,"mode31 = %d\n",mode31);
+					fprintf(QP27,"mode32 = %d\n",mode32);
+					fprintf(QP27,"mode33 = %d\n",mode33);
+					fclose(QP27);
+     				
+             break; 
+         case 2:  			
+				    QP32=fopen("QP32.txt","w");
+					fprintf(QP32,"mode00 = %d\n",mode00);
+					fprintf(QP32,"mode01 = %d\n",mode01);
+					fprintf(QP32,"mode02 = %d\n",mode02);
+					fprintf(QP32,"mode10 = %d\n",mode10);
+					fprintf(QP32,"mode11 = %d\n",mode11);
+					fprintf(QP32,"mode12 = %d\n",mode12);
+					fprintf(QP32,"mode14 = %d\n",mode14);
+					fprintf(QP32,"mode15 = %d\n",mode15);
+					fprintf(QP32,"mode16 = %d\n",mode16);
+					fprintf(QP32,"mode17 = %d\n",mode17);
+					fprintf(QP32,"mode20 = %d\n",mode20);
+					fprintf(QP32,"mode21 = %d\n",mode21);
+					fprintf(QP32,"mode22 = %d\n",mode22);
+					fprintf(QP32,"mode24 = %d\n",mode24);
+					fprintf(QP32,"mode25 = %d\n",mode25);
+					fprintf(QP32,"mode26 = %d\n",mode26);
+					fprintf(QP32,"mode27 = %d\n",mode27);
+					fprintf(QP32,"mode30 = %d\n",mode30);
+					fprintf(QP32,"mode31 = %d\n",mode31);
+					fprintf(QP32,"mode32 = %d\n",mode32);
+					fprintf(QP32,"mode33 = %d\n",mode33);
+					fclose(QP32);
+     				
+             break; 
+         case 3: 
+                    QP37=fopen("QP37.txt","w");   							   
+					fprintf(QP37,"mode00 = %d\n",mode00);
+					fprintf(QP37,"mode01 = %d\n",mode01);
+					fprintf(QP37,"mode02 = %d\n",mode02);
+					fprintf(QP37,"mode10 = %d\n",mode10);
+					fprintf(QP37,"mode11 = %d\n",mode11);
+					fprintf(QP37,"mode12 = %d\n",mode12);
+					fprintf(QP37,"mode14 = %d\n",mode14);
+					fprintf(QP37,"mode15 = %d\n",mode15);
+					fprintf(QP37,"mode16 = %d\n",mode16);
+					fprintf(QP37,"mode17 = %d\n",mode17);
+					fprintf(QP37,"mode20 = %d\n",mode20);
+					fprintf(QP37,"mode21 = %d\n",mode21);
+					fprintf(QP37,"mode22 = %d\n",mode22);
+					fprintf(QP37,"mode24 = %d\n",mode24);
+					fprintf(QP37,"mode25 = %d\n",mode25);
+					fprintf(QP37,"mode26 = %d\n",mode26);
+					fprintf(QP37,"mode27 = %d\n",mode27);
+					fprintf(QP37,"mode30 = %d\n",mode30);
+					fprintf(QP37,"mode31 = %d\n",mode31);
+					fprintf(QP37,"mode32 = %d\n",mode32);
+					fprintf(QP37,"mode33 = %d\n",mode33);
+					fclose(QP37);
+     				
+             break; 
+       
+	 }
+
+	 
+	 
+	 
+	
+
+	/*test1=fopen("test1.txt","w");
   // compress GOP
   m_cGOPEncoder.compressGOP(m_iPOCLast, m_iNumPicRcvd, m_cListPic, rcListPicYuvRecOut, accessUnitsOut);
-
+  
+	fprintf(test1,"mode00 = %d\n",mode00);
+	fprintf(test1,"mode01 = %d\n",mode01);
+	fprintf(test1,"mode02 = %d\n",mode02);
+	fprintf(test1,"mode10 = %d\n",mode10);
+	fprintf(test1,"mode11 = %d\n",mode11);
+	fprintf(test1,"mode12 = %d\n",mode12);
+	fprintf(test1,"mode14 = %d\n",mode14);
+	fprintf(test1,"mode15 = %d\n",mode15);
+	fprintf(test1,"mode16 = %d\n",mode16);
+	fprintf(test1,"mode17 = %d\n",mode17);
+	fprintf(test1,"mode20 = %d\n",mode20);
+	fprintf(test1,"mode21 = %d\n",mode21);
+	fprintf(test1,"mode22 = %d\n",mode22);
+	fprintf(test1,"mode24 = %d\n",mode24);
+	fprintf(test1,"mode25 = %d\n",mode25);
+	fprintf(test1,"mode26 = %d\n",mode26);
+	fprintf(test1,"mode27 = %d\n",mode27);
+	fprintf(test1,"mode30 = %d\n",mode30);
+	fprintf(test1,"mode31 = %d\n",mode31);
+	fprintf(test1,"mode32 = %d\n",mode32);
+	fprintf(test1,"mode33 = %d\n",mode33);
+   
+  	 fclose(test1);
+*/
 #if RATE_CONTROL_LAMBDA_DOMAIN
   if ( m_RCEnableRateControl )
   {

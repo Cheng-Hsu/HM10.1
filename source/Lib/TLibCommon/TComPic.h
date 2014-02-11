@@ -93,7 +93,7 @@ public:
                         Int *numReorderPics, Bool bIsVirtual = false );
                         
   virtual Void  destroy();
-  
+  Int		    m_typepartnum[9][9];
   UInt          getTLayer()                { return m_uiTLayer;   }
   Void          setTLayer( UInt uiTLayer ) { m_uiTLayer = uiTLayer; }
 
