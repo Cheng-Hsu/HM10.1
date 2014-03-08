@@ -925,6 +925,7 @@ Void TEncGOP::compressGOP( Int iPOCLast, Int iNumPicRcvd, TComList<TComPic*>& rc
       pcSlice->setNextSliceSegment( false );
       assert(pcPic->getNumAllocatedSlice() == startCUAddrSliceIdx);
       m_pcSliceEncoder->precompressSlice( pcPic );
+      //printf("pcPic->getSlice = %d",pcSlice->getPOC());
       m_pcSliceEncoder->compressSlice   ( pcPic );
 		
 

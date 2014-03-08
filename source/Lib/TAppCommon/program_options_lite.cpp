@@ -456,6 +456,30 @@ namespace df
         /* error: no value */
         return;
       }
+
+	  if(option=="BitstreamFile"){
+		switch(Qpset){ 
+ 
+         case 0: 
+				 value = "22str.bin";
+         
+			break; 
+         case 1: 
+                value = "27str.bin";
+        
+             break; 
+         case 2: 
+                value = "32str.bin";
+        
+             break; 
+         case 3: 
+                 value = "37str.bin";
+         
+             break; 
+       
+     } 
+	  }
+
 	  if(option=="QP"){
 		switch(Qpset){ 
  

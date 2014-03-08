@@ -108,7 +108,7 @@ public:
     Double dFps     =   m_dFrmRate; //--CFG_KDY
     Double dScale   = dFps / 1000 / (Double)m_uiNumPic;
     
-    fprintf(pFile, "%f\t %f\t %f\t %f\n", getBits() * dScale,
+    fprintf(pFile, "Bitrate = %f\t Y-PSNR = %f\t  U-PSNR = %f\t  V-PSNR = %f\n", getBits() * dScale,
             getPsnrY() / (Double)getNumPic(),
             getPsnrU() / (Double)getNumPic(),
             getPsnrV() / (Double)getNumPic() );

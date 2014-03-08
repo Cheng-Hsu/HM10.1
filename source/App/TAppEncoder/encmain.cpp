@@ -34,6 +34,7 @@
 /** \file     encmain.cpp
     \brief    Encoder application main
 */
+#include <windows.h>
 
 #include <time.h>
 #include <iostream>
@@ -50,11 +51,14 @@ int Qpset;
 // Main function
 // ====================================================================================================================
 
+__int64 FileTimeToQuadWord (PFILETIME pft);
 int main(int argc, char* argv[])
 {
-	
-  for(Qpset=0;Qpset<4;Qpset++){
 
+
+
+
+  for(Qpset=0;Qpset<1;Qpset++){
 
   TAppEncTop  cTAppEncTop;
 
@@ -86,20 +90,61 @@ int main(int argc, char* argv[])
 
   // starting time
   double dResult;
-  long lBefore = clock();
 
+  long lBefore = clock();
+	
+  	LARGE_INTEGER m_liPerfFreq={0};
+    QueryPerformanceFrequency(&m_liPerfFreq); 
+     
+    LARGE_INTEGER m_liPerfStart={0};
+    QueryPerformanceCounter(&m_liPerfStart);
   // call encoding function
   cTAppEncTop.encode();
+	
 
   // ending time
   dResult = (double)(clock()-lBefore) / CLOCKS_PER_SEC;
   printf("\n Total Time: %12.3f sec.\n", dResult);
+  LARGE_INTEGER liPerfNow={0};
+    QueryPerformanceCounter(&liPerfNow);
+
+    LONGLONG time=( ((liPerfNow.QuadPart - m_liPerfStart.QuadPart) * 1000)/m_liPerfFreq.QuadPart);
+
 	
+	printf("執行時間 %d millisecond ",time);
+	
+
+		
+
+	if(Qpset==0){
+				 FILE* QP22Time = fopen ("QP22-Time.txt", "a"); 
+				 fprintf(QP22Time, "QP22-Time -> Total Time: %12.3f sec.\t  執行時間 %d millisecond\n",dResult,time);
+				 fclose(QP22Time);
+				}	     
+	if(Qpset==1){
+				 FILE* QP27Time = fopen ("QP27-Time.txt", "a"); 
+				 fprintf(QP27Time, "QP27-Time -> Total Time: %12.3f sec.\t  執行時間 %d millisecond\n",dResult,time);
+				 fclose(QP27Time);
+				}
+	if(Qpset==2){
+				 FILE* QP32Time = fopen ("QP32-Time.txt", "a"); 
+				 fprintf(QP32Time, "QP32-Time -> Total Time: %12.3f sec.\t  執行時間 %d milliseconds\n",dResult,time);
+				 fclose(QP32Time);
+				}
+	if(Qpset==3){
+				 FILE* QP37Time = fopen ("QP37-Time.txt", "a"); 
+				 fprintf(QP37Time, "QP37-Time -> Total Time: %12.3f sec.\t  執行時間 %d millisecond\n",dResult,time);
+				 fclose(QP37Time);
+				}
+
   // destroy application encoder class
   cTAppEncTop.destroy();
  }
   return 0;
 	
+}
+__int64 FileTimeToQuadWord (PFILETIME pft) {
+   return(Int64ShllMod32(pft->dwHighDateTime, 32) | pft->dwLowDateTime);
 }
 
 //! \}

@@ -102,8 +102,8 @@
 // Common constants
 // ====================================================================================================================
 
-#define _SUMMARY_OUT_               0           ///< print-out PSNR results of all slices to summary.txt
-#define _SUMMARY_PIC_               0           ///< print-out PSNR results for each slice type to summary.txt
+#define _SUMMARY_OUT_               4           ///< print-out PSNR results of all slices to summary.txt
+#define _SUMMARY_PIC_               4           ///< print-out PSNR results for each slice type to summary.txt
 
 #define MAX_GOP                     64          ///< max. value of hierarchical GOP size
 

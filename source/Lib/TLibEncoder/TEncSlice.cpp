@@ -1069,7 +1069,7 @@ Void TEncSlice::compressSlice( TComPic*& rpcPic )
 
       // run CU encoder
       m_pcCuEncoder->compressCU( pcCU );
-  
+      
    
 	int iCount = 0;  
 	int Count640 = 0;
