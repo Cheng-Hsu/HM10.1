@@ -4598,7 +4598,8 @@ Void TEncSearch::encodeResAndCalcRdInterCU( TComDataCU* pcCU, TComYuv* pcYuvOrg,
     pcCU->getTotalBits()       = uiBits;
     pcCU->getTotalDistortion() = uiDistortion;
     pcCU->getTotalCost()       = m_pcRdCost->calcRdCost( uiBits, uiDistortion );
-    
+	
+
     if( m_bUseSBACRD )
       m_pcRDGoOnSbacCoder->store(m_pppcRDSbacCoder[pcCU->getDepth(0)][CI_TEMP_BEST]);
     

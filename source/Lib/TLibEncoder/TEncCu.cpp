@@ -42,6 +42,8 @@
 
 #include <cmath>
 #include <algorithm>
+extern	double a,b,c,d,temp;
+extern	double t0,t16,t32,t48,t64,t80,t96,t112,t128,t144,t160,t176,t192,t208,t224,t240; 
 using namespace std;
 
 //! \ingroup TLibEncoder
@@ -243,6 +245,20 @@ Void TEncCu::compressCU( TComDataCU*& rpcCU )
   // analysis of CU
   xCompressCU( m_ppcBestCU[0], m_ppcTempCU[0], 0 );
 
+		 
+			 
+	
+	/*	FILE* BEST_RDCOST = fopen ("BEST_RDCOST.txt", "a"); 
+
+		
+		
+		fprintf(BEST_RDCOST, "%d \t  %.1f \t  %.1f \n",rpcCU->getAddr(),rpcCU->getTotalCost(),rpcCU->getTotalCost());
+	
+		fclose(BEST_RDCOST);
+*/
+
+		  
+	
 #if ADAPTIVE_QP_SELECTION
   if( m_pcEncCfg->getUseAdaptQpSelect() )
   {
@@ -401,6 +417,7 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
   Int iBaseQP = xComputeQP( rpcBestCU, uiDepth );
   Int iMinQP;
   Int iMaxQP;
+  int  add=100;
   Bool isAddLowestQP = false;
   Int lowestQP = -rpcTempCU->getSlice()->getSPS()->getQpBDOffsetY();
   
@@ -464,9 +481,9 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
 	
       // do inter modes, SKIP and 2Nx2N
       if( rpcBestCU->getSlice()->getSliceType() != I_SLICE )
-      {
-		 printf("rpcTempCU->uiDepth()==========================%d\n",uiDepth);
-		  
+	  {
+		// printf("rpcTempCU->uiDepth()==========================%d\n",uiDepth);
+
         // 2Nx2N
         if(m_pcEncCfg->getUseEarlySkipDetection())
         {
@@ -486,7 +503,20 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
             bTrySplit  = false;
           }
         }
-
+		/*
+		if(rpcBestCU->isSkipped(rpcBestCU->getAddr())){
+		 printf("rpcTempCU->getAddr()=%d\n",rpcTempCU->getAddr());
+		 printf("rpcTempCU->getCUPelX()=%d\n",rpcTempCU->getCUPelX());
+		 printf("rpcTempCU->getCUPelY()=%d\n",rpcTempCU->getCUPelY());
+		 printf("rpcTempCU->getSCUAddr()=%d\n",rpcTempCU->getSCUAddr());
+		 printf("rpcTempCU->getTotalCost()=%f\n",rpcTempCU->getTotalCost());
+		 printf("rpcTempCU->rpcBestCU()=%f\n",rpcBestCU->getTotalCost());
+		 printf("rpcTempCU->getPartitionSize(0)()=%d\n",rpcBestCU->getPartitionSize(0));
+		 printf("rpcTempCU->eParentPartSize()=%d\n",eParentPartSize);
+		 printf("rpcTempCU->uhDepth()=%d\n",uiDepth);
+		 system("pause");	
+		} 
+*/
         if(!m_pcEncCfg->getUseEarlySkipDetection())
 		{
           // 2Nx2N, NxN
@@ -539,6 +569,8 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
         // do inter modes, NxN, 2NxN, and Nx2N
         if( rpcBestCU->getSlice()->getSliceType() != I_SLICE )
 		{
+
+
           // 2Nx2N, NxN
           if ( !bEarlySkip )
           {
@@ -735,9 +767,12 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
     if(m_pcEncCfg->getUseSBACRD())
     {
       rpcBestCU->getTotalBins() += ((TEncBinCABAC *)((TEncSbac*)m_pcEntropyCoder->m_pcEntropyCoderIf)->getEncBinIf())->getBinsCoded();
-    }
+    } 
+	
     rpcBestCU->getTotalCost()  = m_pcRdCost->calcRdCost( rpcBestCU->getTotalBits(), rpcBestCU->getTotalDistortion() );
 
+	
+			
     // accumulate statistics for early skip
     if ( m_pcEncCfg->getUseFastEnc() )
     {
@@ -827,13 +862,13 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
 
     // further split
     if( bSubBranch && bTrySplitDQP && uiDepth < g_uiMaxCUDepth - g_uiAddCUDepth )
-    {
+	{
       UChar       uhNextDepth         = uiDepth+1;
       TComDataCU* pcSubBestPartCU     = m_ppcBestCU[uhNextDepth];
       TComDataCU* pcSubTempPartCU     = m_ppcTempCU[uhNextDepth];
 
       for ( UInt uiPartUnitIdx = 0; uiPartUnitIdx < 4; uiPartUnitIdx++ )
-      {
+	  {
         pcSubBestPartCU->initSubCU( rpcTempCU, uiPartUnitIdx, uhNextDepth, iQP );           // clear sub partition datas or init.
         pcSubTempPartCU->initSubCU( rpcTempCU, uiPartUnitIdx, uhNextDepth, iQP );           // clear sub partition datas or init.
  // printf("rpcTempCU->getAddr =%d\n",rpcTempCU->getAddr());
@@ -894,7 +929,63 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
         }
       }
       rpcTempCU->getTotalCost()  = m_pcRdCost->calcRdCost( rpcTempCU->getTotalBits(), rpcTempCU->getTotalDistortion() );
+	  if ( rpcBestCU->getSlice()->getSliceType() != I_SLICE  ){
+		  
+		  if(uiDepth==2){
+		
+			  if(rpcBestCU->getZorderIdxInCU()==0)       t0 = rpcBestCU->getTotalCost();		
+			  else if(rpcBestCU->getZorderIdxInCU()==16) t16 = rpcBestCU->getTotalCost();
+			  else if(rpcBestCU->getZorderIdxInCU()==32) t32 = rpcBestCU->getTotalCost();
+			  else if(rpcBestCU->getZorderIdxInCU()==48) t48 = rpcBestCU->getTotalCost();
+			  else if(rpcBestCU->getZorderIdxInCU()==64) t64 = rpcBestCU->getTotalCost();
+			  else if(rpcBestCU->getZorderIdxInCU()==80) t80 = rpcBestCU->getTotalCost();
+			  else if(rpcBestCU->getZorderIdxInCU()==96) t96 = rpcBestCU->getTotalCost();
+			  else if(rpcBestCU->getZorderIdxInCU()==112) t112 = rpcBestCU->getTotalCost();
+			  else if(rpcBestCU->getZorderIdxInCU()==128) t128 = rpcBestCU->getTotalCost();
+			  else if(rpcBestCU->getZorderIdxInCU()==144) t144 = rpcBestCU->getTotalCost();
+			  else if(rpcBestCU->getZorderIdxInCU()==160) t160 = rpcBestCU->getTotalCost();
+			  else if(rpcBestCU->getZorderIdxInCU()==176) t176 = rpcBestCU->getTotalCost();
+			  else if(rpcBestCU->getZorderIdxInCU()==192) t192 = rpcBestCU->getTotalCost();
+			  else if(rpcBestCU->getZorderIdxInCU()==208) t208 = rpcBestCU->getTotalCost();
+			  else if(rpcBestCU->getZorderIdxInCU()==224) t224 = rpcBestCU->getTotalCost();
+			  else if(rpcBestCU->getZorderIdxInCU()==240) t240 = rpcBestCU->getTotalCost();
+				
+			  a = (t0 + t16 + t32 + t48)/4;
+			  b = (t64 + t80 + t96 + t112)/4;
+			  c = (t128 + t144 + t160 + t176)/4;
+			  d = (t192 + t208 + t224 + t240)/4;
 
+
+			 
+				 
+				// printf("rpcBestCU->a=%f\n",rpcBestCU->b);
+				// printf("rpcBestCU->a=%f\n",rpcBestCU->c);
+				// printf("rpcBestCU->a=%f\n",rpcBestCU->d);
+			  //printf("rpcTempCU->getAddr()=%d\n",rpcTempCU->getAddr());
+			/* printf("rpcTempCU->getTotalCost()=%d\n",rpcTempCU->getZorderIdxInCU());
+			 printf("rpcBestCU->a=%f\n\n",t0);
+			  printf("rpcBestCU->a=%f\n\n",t16);
+			   printf("rpcBestCU->a=%f\n\n",t32);
+			    printf("rpcBestCU->a=%f\n\n",t48);
+				    printf("rpcBestCU->aaaa=%f\n\n",a);*/
+			// printf("rpcTempCU->getTotalCost()=%f\n",rpcTempCU->getTotalCost());
+		FILE* D2_RDCOST = fopen ("D2_RDCOST.txt", "a"); 
+		//FILE* D1_RDCOST = fopen ("D1_RDCOST.txt", "a"); 
+		//FILE* D0_RDCOST = fopen ("D0_RDCOST.txt", "a"); 
+	//	printf("rpcTempCU->getAddr()=%d\n",rpcTempCU->getAddr());
+	//	 printf("rpcTempCU->getCUPelX()=%d\n",rpcTempCU->getCUPelX());
+	//	 printf("rpcTempCU->getCUPelY()=%d\n",rpcTempCU->getCUPelY());
+	//	 printf("rpcTempCU->getSCUAddr()=%d\n",rpcTempCU->getZorderIdxInCU());
+		fprintf(D2_RDCOST, "%d \t  %f \t  %f \n",rpcTempCU->getAddr(),rpcTempCU->getTotalCost(),rpcBestCU->getTotalCost());
+		//fprintf(D1_RDCOST, "%d \t  %.1f \t  %.1f \n",rpcTempCU->getAddr(),rpcTempCU->getTotalCost(),rpcBestCU->getTotalCost());
+		//fprintf(D0_RDCOST, "%d \t  %.1f \t  %.1f \n",rpcTempCU->getAddr(),rpcTempCU->getTotalCost(),rpcBestCU->getTotalCost());
+		fclose(D2_RDCOST);
+		//fclose(D1_RDCOST);
+		//fclose(D0_RDCOST);
+
+
+		  }
+	  }
       if( (g_uiMaxCUWidth>>uiDepth) == rpcTempCU->getSlice()->getPPS()->getMinCuDQPSize() && rpcTempCU->getSlice()->getPPS()->getUseDQP())
       {
         Bool hasResidual = false;
@@ -928,6 +1019,8 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
             rpcTempCU->getTotalBins() += ((TEncBinCABAC *)((TEncSbac*)m_pcEntropyCoder->m_pcEntropyCoderIf)->getEncBinIf())->getBinsCoded();
           }
           rpcTempCU->getTotalCost()  = m_pcRdCost->calcRdCost( rpcTempCU->getTotalBits(), rpcTempCU->getTotalDistortion() );
+		 
+          
 #endif
 
           Bool foundNonZeroCbf = false;
@@ -950,9 +1043,18 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
                                  && (rpcBestCU->getTotalBits()>rpcBestCU->getSlice()->getSliceSegmentArgument()<<3);
       if(isEndOfSlice||isEndOfSliceSegment)
       {
+		  if ( rpcBestCU->getSlice()->getSliceType() != I_SLICE  ){
+		//  printf("rpcTempCU->getTotalCost()==============%f\n",rpcTempCU->getTotalCost());
+		 //   system("pause");	
+		  }
         rpcBestCU->getTotalCost()=rpcTempCU->getTotalCost()+1;
       }
+	  if ( rpcBestCU->getSlice()->getSliceType() != I_SLICE  ){
+	 // printf("rpcBestCU->getTotalCost()=======%f\n",rpcBestCU->getTotalCost());
+	 // printf("rpcBestCU->getWidth()=======| %c |\n",rpcBestCU->getWidth());
+	  }
       xCheckBestMode( rpcBestCU, rpcTempCU, uiDepth);                                  // RD compare current larger prediction
+
     }                                                                                  // with sub partitioned prediction.
     if (isAddLowestQP && (iQP == lowestQP))
     {
@@ -961,6 +1063,23 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
   }
 
   rpcBestCU->copyToPic(uiDepth);                                                     // Copy Best data to Picture for next partition prediction.
+
+   if(uiDepth==2){
+			 
+		//FILE* D2_RDCOST = fopen ("D2_RDCOST.txt", "a"); 
+		//FILE* D1_RDCOST = fopen ("D1_RDCOST.txt", "a"); 
+		//FILE* D0_RDCOST = fopen ("D0_RDCOST.txt", "a"); 
+		
+		//fprintf(D2_RDCOST, "%d \t  %.1f \t  %.1f \n",rpcTempCU->getAddr(),rpcTempCU->getTotalCost(),rpcBestCU->getTotalCost());
+		//fprintf(D1_RDCOST, "%d \t  %.1f \t  %.1f \n",rpcTempCU->getAddr(),rpcTempCU->getTotalCost(),rpcBestCU->getTotalCost());
+		//fprintf(D0_RDCOST, "%d \t  %.1f \t  %.1f \n",rpcTempCU->getAddr(),rpcTempCU->getTotalCost(),rpcBestCU->getTotalCost());
+		//fclose(D2_RDCOST);
+		//fclose(D1_RDCOST);
+		//fclose(D0_RDCOST);
+
+
+		  }
+
 
   xCopyYuv2Pic( rpcBestCU->getPic(), rpcBestCU->getAddr(), rpcBestCU->getZorderIdxInCU(), uiDepth, uiDepth, rpcBestCU, uiLPelX, uiTPelY );   // Copy Yuv data to picture Yuv
   if( bBoundary ||(bSliceEnd && bInsidePicture))
@@ -1264,6 +1383,7 @@ Void TEncCu::xCheckRDCostMerge2Nx2N( TComDataCU*& rpcBestCU, TComDataCU*& rpcTem
          m_ppcRecoYuvTemp[uhDepth],
          (uiNoResidual? true:false));
 
+       //rpcBestCU->my_skipFlag = uiNoResidual;
 
        if(uiNoResidual==0)
        {
@@ -1277,12 +1397,16 @@ Void TEncCu::xCheckRDCostMerge2Nx2N( TComDataCU*& rpcBestCU, TComDataCU*& rpcTem
           Int orgQP = rpcTempCU->getQP( 0 );
           xCheckDQP( rpcTempCU );
           xCheckBestMode(rpcBestCU, rpcTempCU, uhDepth);
+
           rpcTempCU->initEstData( uhDepth, orgQP );
 
 
       if( m_pcEncCfg->getUseFastDecisionForMerge() && !bestIsSkip )
       {
         bestIsSkip = rpcBestCU->getQtRootCbf(0) == 0;
+		
+	  
+
       }
 
     }
@@ -1340,16 +1464,7 @@ Void TEncCu::xCheckRDCostInter( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, 
   rpcTempCU->setPartSizeSubParts  ( ePartSize,  0, uhDepth );
   rpcTempCU->setPredModeSubParts  ( MODE_INTER, 0, uhDepth );
   rpcTempCU->setCUTransquantBypassSubParts  ( m_pcEncCfg->getCUTransquantBypassFlagValue(),      0, uhDepth );
-  
-		 printf("rpcTempCU->getAddr()=%d\n",rpcTempCU->getAddr());
-		 printf("rpcTempCU->getCUPelX()=%d\n",rpcTempCU->getCUPelX());
-		 printf("rpcTempCU->getCUPelY()=%d\n",rpcTempCU->getCUPelY());
-		 printf("rpcTempCU->getSCUAddr()=%d\n",rpcTempCU->getSCUAddr());
-		 printf("rpcTempCU->getTotalCost()=%f\n",rpcTempCU->getTotalCost());
-		 printf("rpcTempCU->rpcBestCU()=%f\n",rpcBestCU->getTotalCost());
-		 printf("rpcTempCU->ePartSize()=%d\n",ePartSize);
-		 printf("rpcTempCU->uhDepth()=%d\n",uhDepth);
-		 system("pause");
+
 
 #if AMP_MRG
   rpcTempCU->setMergeAMP (true);
@@ -1377,10 +1492,20 @@ Void TEncCu::xCheckRDCostInter( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, 
 
   m_pcPredSearch->encodeResAndCalcRdInterCU( rpcTempCU, m_ppcOrigYuv[uhDepth], m_ppcPredYuvTemp[uhDepth], m_ppcResiYuvTemp[uhDepth], m_ppcResiYuvBest[uhDepth], m_ppcRecoYuvTemp[uhDepth], false );
   rpcTempCU->getTotalCost()  = m_pcRdCost->calcRdCost( rpcTempCU->getTotalBits(), rpcTempCU->getTotalDistortion() );
-  
-		
-	
-
+  /*
+  if(ePartSize==4){
+		 printf("rpcTempCU->getAddr()=%d\n",rpcTempCU->getAddr());
+		 printf("rpcTempCU->getCUPelX()=%d\n",rpcTempCU->getCUPelX());
+		 printf("rpcTempCU->getCUPelY()=%d\n",rpcTempCU->getCUPelY());
+		 printf("rpcTempCU->getSCUAddr()=%d\n",rpcTempCU->getSCUAddr());
+		 printf("rpcTempCU->getTotalCost()=%f\n",rpcTempCU->getTotalCost());
+		 printf("rpcTempCU->rpcBestCU()=%f\n",rpcBestCU->getTotalCost());
+		 printf("rpcTempCU->getPartitionSize(0)()=%d\n",rpcBestCU->getPartitionSize(0));
+		 printf("rpcTempCU->ePartSize()=%d\n",ePartSize);
+		 printf("rpcTempCU->uhDepth()=%d\n",uhDepth);
+		 system("pause");	
+  }
+*/
   xCheckDQP( rpcTempCU );
   xCheckBestMode(rpcBestCU, rpcTempCU, uhDepth);
 

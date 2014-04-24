@@ -62,6 +62,12 @@ extern	int mode30;
 extern	int mode31;
 extern	int mode32;
 extern	int mode33;
+extern	int rdy;
+extern	int rdn;
+extern	int rdy7;
+extern	int rdn7;
+extern	int rdyd;
+extern	int rdnd;
 extern int Qpset;
 //! \ingroup TLibEncoder
 //! \{
@@ -411,6 +417,11 @@ Void TEncTop::encode(Bool flush, TComPicYuv* pcPicYuvOrg, TComList<TComPicYuv*>&
   switch(Qpset){ 
  
          case 0: 
+					test1=fopen("rdy.txt","a");
+					fprintf(test1,"rdy = %d rdn = %d\n",rdy,rdn);
+					fprintf(test1,"rdy7 = %d rdn7 = %d\n",rdy7,rdn7);
+					fprintf(test1,"rdyd = %d rdnd = %d\n",rdyd,rdnd);
+
 					QP22=fopen("QP22.txt","w");
 					fprintf(QP22,"mode00 = %d\n",mode00);
 					fprintf(QP22,"mode01 = %d\n",mode01);
@@ -434,9 +445,13 @@ Void TEncTop::encode(Bool flush, TComPicYuv* pcPicYuvOrg, TComList<TComPicYuv*>&
 					fprintf(QP22,"mode32 = %d\n",mode32);
 					fprintf(QP22,"mode33 = %d\n",mode33);
 					fclose(QP22);
+					fclose(test1);
      				
 			break; 
          case 1: 
+					test1=fopen("rdy.txt","a");
+					fprintf(test1,"rdy = %d rdn = %d\n",rdy,rdn);
+					
 					QP27=fopen("QP27.txt","w");
 					fprintf(QP27,"mode00 = %d\n",mode00);
 					fprintf(QP27,"mode01 = %d\n",mode01);
@@ -460,9 +475,12 @@ Void TEncTop::encode(Bool flush, TComPicYuv* pcPicYuvOrg, TComList<TComPicYuv*>&
 					fprintf(QP27,"mode32 = %d\n",mode32);
 					fprintf(QP27,"mode33 = %d\n",mode33);
 					fclose(QP27);
-     				
+     				fclose(test1);
              break; 
          case 2:  			
+					test1=fopen("rdy.txt","a");
+					fprintf(test1,"rdy = %d rdn = %d\n",rdy,rdn);
+
 				    QP32=fopen("QP32.txt","w");
 					fprintf(QP32,"mode00 = %d\n",mode00);
 					fprintf(QP32,"mode01 = %d\n",mode01);
@@ -486,9 +504,12 @@ Void TEncTop::encode(Bool flush, TComPicYuv* pcPicYuvOrg, TComList<TComPicYuv*>&
 					fprintf(QP32,"mode32 = %d\n",mode32);
 					fprintf(QP32,"mode33 = %d\n",mode33);
 					fclose(QP32);
-     				
+     				fclose(test1);
              break; 
          case 3: 
+					test1=fopen("rdy.txt","a");
+					fprintf(test1,"rdy = %d rdn = %d\n",rdy,rdn);
+
                     QP37=fopen("QP37.txt","w");   							   
 					fprintf(QP37,"mode00 = %d\n",mode00);
 					fprintf(QP37,"mode01 = %d\n",mode01);
@@ -512,7 +533,7 @@ Void TEncTop::encode(Bool flush, TComPicYuv* pcPicYuvOrg, TComList<TComPicYuv*>&
 					fprintf(QP37,"mode32 = %d\n",mode32);
 					fprintf(QP37,"mode33 = %d\n",mode33);
 					fclose(QP37);
-     				
+     				fclose(test1);
              break; 
        
 	 }

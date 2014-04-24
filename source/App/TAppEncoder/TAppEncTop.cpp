@@ -65,6 +65,16 @@
 	int mode31;
 	int mode32;
 	int mode33;
+
+	int rdy;
+	int rdn;
+	int rdy7;
+	int rdn7;
+	int rdyd;
+	int rdnd;
+	double a,b,c,d,temp;
+	double t0,t16,t32,t48,t64,t80,t96,t112,t128,t144,t160,t176,t192,t208,t224,t240; 
+
 using namespace std;
 
 extern	int Qpset;
@@ -469,6 +479,14 @@ Void TAppEncTop::encode()
 	mode31=0;
 	mode32=0;
 	mode33=0;
+	rdy=0;
+	rdn=0;
+	rdy7=0;
+	rdn7=0;
+	rdyd=0;
+	rdnd=0;
+	//a,b,c,d,temp;
+	//t0,t16,t32,t48,t64,t80,t96,t112,t128,t144,t160,t176,t192,t208,t224,t240; 
 
   // initialize internal class & member variables
   xInitLibCfg();

@@ -219,8 +219,10 @@ protected:
   Void xDeriveCenterIdx( UInt uiPartIdx, UInt& ruiPartIdxCenter );
 
 public:
+  int         my_skipFlag;           ///< array of skip flags
   TComDataCU();
   virtual ~TComDataCU();
+  
   
   // -------------------------------------------------------------------------------------------------------------------
   // create / destroy / initialize / copy
