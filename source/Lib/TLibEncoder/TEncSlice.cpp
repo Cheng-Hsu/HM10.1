@@ -1204,55 +1204,55 @@ Void TEncSlice::compressSlice( TComPic*& rpcPic )
 			 t240 = t240+d/4;*/
 
 			//¥þ³¡D2ªº
-			if( (pcCU->getDepth(g_auiRasterToZscan[0])==2) && (t0 <= a)) rdy+=1;
-			else if((pcCU->getDepth(g_auiRasterToZscan[0])==2) && (t0 > a)) rdn+=1;
+			if( (pcCU->getDepth(g_auiRasterToZscan[0])==1) && (t0 == 1)) rdy+=1;
+			else if((pcCU->getDepth(g_auiRasterToZscan[0])==1) && (t0 == 0)) rdn+=1;
 
-		    if( (pcCU->getDepth(g_auiRasterToZscan[4])==2) && (t16 <= a) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[4])==2) && (t16 > a) ) rdn+=1;
+		    if( (pcCU->getDepth(g_auiRasterToZscan[0])==1) && (t16 == 1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[0])==1) && (t16 == 0) ) rdn+=1;
 
-			if( (pcCU->getDepth(g_auiRasterToZscan[64])==2) && (t32 <= a) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[64])==2) && (t32 > a) ) rdn+=1;
+			if( (pcCU->getDepth(g_auiRasterToZscan[0])==1) && (t32 == 1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[0])==1) && (t32 == 0) ) rdn+=1;
 
-			if( (pcCU->getDepth(g_auiRasterToZscan[70])==2) && (t48 <= a) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[70])==2) && (t48 > a) ) rdn+=1;
+			if( (pcCU->getDepth(g_auiRasterToZscan[0])==1) && (t48 == 1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[0])==1) && (t48 == 0) ) rdn+=1;
 
-			if( (pcCU->getDepth(g_auiRasterToZscan[8])==2) && (t64 <= b) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[8])==2) && (t64 > b) )rdn+=1;
+			if( (pcCU->getDepth(g_auiRasterToZscan[8])==1) && (t64 == 1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[8])==1) && (t64 == 0) )rdn+=1;
 
- 			if( (pcCU->getDepth(g_auiRasterToZscan[12])==2) && (t80 <= b) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[12])==2) && (t80 > b) )rdn+=1;
+ 			if( (pcCU->getDepth(g_auiRasterToZscan[8])==1) && (t80 == 1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[8])==1) && (t80 == 0) )rdn+=1;
 
-			if( (pcCU->getDepth(g_auiRasterToZscan[74])==2) && (t96 <= b) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[74])==2) && (t96 > b) )rdn+=1;
+			if( (pcCU->getDepth(g_auiRasterToZscan[8])==1) && (t96 == 1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[8])==1) && (t96 == 0) )rdn+=1;
 
-			if( (pcCU->getDepth(g_auiRasterToZscan[78])==2) && (t112 <= b) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[78])==2) && (t112 > b) )rdn+=1;
+			if( (pcCU->getDepth(g_auiRasterToZscan[8])==1) && (t112 == 1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[8])==1) && (t112 == 0) )rdn+=1;
 
-			if( (pcCU->getDepth(g_auiRasterToZscan[128])==2) && (t128 <= c) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[128])==2) && (t128 > c) )rdn+=1;
+			if( (pcCU->getDepth(g_auiRasterToZscan[128])==1) && (t128 == 1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[128])==1) && (t128 == 0) )rdn+=1;
 
-			if( (pcCU->getDepth(g_auiRasterToZscan[132])==2) && (t144 <= c) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[132])==2) && (t144 > c) )rdn+=1;
+			if( (pcCU->getDepth(g_auiRasterToZscan[128])==1) && (t144 == 1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[128])==1) && (t144 == 0) )rdn+=1;
 
-			if( (pcCU->getDepth(g_auiRasterToZscan[192])==2) && (t160 <= c) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[192])==2) && (t160 > c) )rdn+=1;
+			if( (pcCU->getDepth(g_auiRasterToZscan[128])==1) && (t160 == 1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[128])==1) && (t160 == 0) )rdn+=1;
 
-			if( (pcCU->getDepth(g_auiRasterToZscan[196])==2) && (t176 <= c) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[196])==2) && (t176 > c) )rdn+=1;
+			if( (pcCU->getDepth(g_auiRasterToZscan[128])==1) && (t176 == 1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[128])==1) && (t176 == 0) )rdn+=1;
 
-			if( (pcCU->getDepth(g_auiRasterToZscan[136])==2) && (t192 <= d) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[136])==2) && (t192 > d) )rdn+=1;
+			if( (pcCU->getDepth(g_auiRasterToZscan[136])==1) && (t192 ==1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[136])==1) && (t192 == 0) )rdn+=1;
 
-			if( (pcCU->getDepth(g_auiRasterToZscan[140])==2) && (t208 <= d) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[140])==2) && (t208 > d) )rdn+=1;
+			if( (pcCU->getDepth(g_auiRasterToZscan[136])==1) && (t208 == 1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[136])==1) && (t208 == 0) )rdn+=1;
 
-			if( (pcCU->getDepth(g_auiRasterToZscan[200])==2) && (t224 <= d) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[200])==2) && (t224 > d) )rdn+=1;
+			if( (pcCU->getDepth(g_auiRasterToZscan[136])==1) && (t224 == 1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[136])==1) && (t224 == 0) )rdn+=1;
 
-			if( (pcCU->getDepth(g_auiRasterToZscan[204])==2) && (t240 <= d) ) rdy+=1;
-			else if( (pcCU->getDepth(g_auiRasterToZscan[204])==2) && (t240 > d) )rdn+=1;
+			if( (pcCU->getDepth(g_auiRasterToZscan[136])==1) && (t240 == 1) ) rdy+=1;
+			else if( (pcCU->getDepth(g_auiRasterToZscan[136])==1) && (t240 == 0) )rdn+=1;
 
-			ta=0,tb=0,tc=0,td=0;
+			//ta=0,tb=0,tc=0,td=0;
 			/*if(t0>a)ta++; if(t16>a)ta++; if(t32>a)ta++; if(t48>a)ta++;
 			if(t64>b)tb++; if(t80>b)tb++; if(t96>b)tb++; if(t112>b)tb++;
 			if(t128>c)tc++; if(t144>c)tc++; if(t160>c)tc++; if(t176>c)tc++;
