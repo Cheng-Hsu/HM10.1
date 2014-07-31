@@ -414,7 +414,7 @@ Void TEncTop::encode(Bool flush, TComPicYuv* pcPicYuvOrg, TComList<TComPicYuv*>&
   
    // compress GOP
     m_cGOPEncoder.compressGOP(m_iPOCLast, m_iNumPicRcvd, m_cListPic, rcListPicYuvRecOut, accessUnitsOut);
-  switch(Qpset){ 
+/*  switch(Qpset){ 
  
          case 0: 
 					test1=fopen("rdy.txt","a");
@@ -538,7 +538,7 @@ Void TEncTop::encode(Bool flush, TComPicYuv* pcPicYuvOrg, TComList<TComPicYuv*>&
        
 	 }
 
-	 
+	 */
 	 
 	 
 	

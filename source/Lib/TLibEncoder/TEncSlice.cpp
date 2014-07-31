@@ -67,6 +67,7 @@ extern	int rdn7;
 extern	int rdyd;
 extern	int rdnd;
 int ta=0,tb=0,tc=0,td=0;
+int maxd,mind;
 extern	double a,b,c,d,temp;
 extern	double t0,t16,t32,t48,t64,t80,t96,t112,t128,t144,t160,t176,t192,t208,t224,t240; 
 //! \ingroup TLibEncoder
@@ -1078,7 +1079,7 @@ Void TEncSlice::compressSlice( TComPic*& rpcPic )
 
       // run CU encoder
       m_pcCuEncoder->compressCU( pcCU );
-      
+/*      
    
 	int iCount = 0;  
 	int Count640 = 0;
@@ -1203,7 +1204,7 @@ Void TEncSlice::compressSlice( TComPic*& rpcPic )
 			 t224 = t224+d/4;
 			 t240 = t240+d/4;*/
 
-			//全部D2的
+		/*	//全部D2的
 			if( (pcCU->getDepth(g_auiRasterToZscan[0])==1) && (t0 == 1)) rdy+=1;
 			else if((pcCU->getDepth(g_auiRasterToZscan[0])==1) && (t0 == 0)) rdn+=1;
 
@@ -1259,7 +1260,7 @@ Void TEncSlice::compressSlice( TComPic*& rpcPic )
 			if(t192>d)td++; if(t208>d)td++; if(t224>d)td++; if(t240>d)td++;
 */
 
-			//算是D3但<T>7000的
+		/*	//算是D3但<T>7000的
 			if(t0>7000)ta++; if(t16>7000)ta++; if(t32>7000)ta++; if(t48>7000)ta++;
 			if(t64>7000)tb++; if(t80>7000)tb++; if(t96>7000)tb++; if(t112>7000)tb++;
 			if(t128>7000)tc++; if(t144>7000)tc++; if(t160>7000)tc++; if(t176>7000)tc++;
@@ -1400,7 +1401,32 @@ Void TEncSlice::compressSlice( TComPic*& rpcPic )
 	}  
 	printf("\n---------------PU ends--------------\n"); 
 */
+		maxd=0;
+	  mind=3;
+if ( pcCU->getSlice()->getSliceType() != I_SLICE  ){
+	int iCount = 0;  
+	int iWidthInPart = g_uiMaxCUWidth >> 2; 
+	for (int i = 0; i < pcCU->getTotalNumPart(); i++)  
+	{  
+	 if ( (iCount & (iWidthInPart - 1)) == 0)  
+	 // printf("\n");  
+	  
+	//printf("%d ", pcCU->getDepth(g_auiRasterToZscan[i]));  
+	 iCount++;  
+		if(pcCU->getDepth(g_auiRasterToZscan[i])>maxd) maxd=pcCU->getDepth(g_auiRasterToZscan[i]);
+	
+		if(pcCU->getDepth(g_auiRasterToZscan[i])<mind) mind=pcCU->getDepth(g_auiRasterToZscan[i]);
+	
+		
+		} 
+	
+		FILE* Data_v1_best = fopen ("Data_v1_best.csv", "a"); 
+		fprintf(Data_v1_best, "%d \t %d \t %d \t %d \t %f \n",pcCU->getPic()->getPOC(),pcCU->getAddr(),maxd,mind
+													,pcCU->getTotalCost());
+		
+		fclose(Data_v1_best);
 
+}
 #if RATE_CONTROL_LAMBDA_DOMAIN
       if ( m_pcCfg->getUseRateCtrl() )
       {

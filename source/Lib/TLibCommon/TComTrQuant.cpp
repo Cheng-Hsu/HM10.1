@@ -1217,6 +1217,7 @@ Void TComTrQuant::transformNxN( TComDataCU* pcCU,
                                Bool        useTransformSkip
                                )
 {
+	
   if (pcCU->getCUTransquantBypass(uiAbsPartIdx))
   {
     uiAbsSum=0;
@@ -1256,6 +1257,7 @@ Void TComTrQuant::transformNxN( TComDataCU* pcCU,
        rpcArlCoeff,
 #endif
        uiWidth, uiHeight, uiAbsSum, eTType, uiAbsPartIdx );
+ 
 }
 
 Void TComTrQuant::invtransformNxN( Bool transQuantBypass, TextType eText, UInt uiMode,Pel* rpcResidual, UInt uiStride, TCoeff*   pcCoeff, UInt uiWidth, UInt uiHeight,  Int scalingListType, Bool useTransformSkip )
@@ -1285,6 +1287,7 @@ Void TComTrQuant::invtransformNxN( Bool transQuantBypass, TextType eText, UInt u
 
 Void TComTrQuant::invRecurTransformNxN( TComDataCU* pcCU, UInt uiAbsPartIdx, TextType eTxt, Pel* rpcResidual, UInt uiAddr, UInt uiStride, UInt uiWidth, UInt uiHeight, UInt uiMaxTrMode, UInt uiTrMode, TCoeff* rpcCoeff )
 {
+	 
   if( !pcCU->getCbf(uiAbsPartIdx, eTxt, uiTrMode) )
   {
     return;
