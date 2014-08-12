@@ -44,14 +44,11 @@
 #include <algorithm>
 extern	double a,b,c,d,temp;
 extern	double t0,t16,t32,t48,t64,t80,t96,t112,t128,t144,t160,t176,t192,t208,t224,t240; 
-extern int dpremaxl,dpremaxu,dpremaxlu,dpremaxco;
-extern	double Dpred;
 using namespace std;
 int eer,eet;
 double thrup,thrleft,thr,allthr,num;
 double dep,mdep;
-int br=0,once=1,brm=1,addr;
-extern int dmin,dmax;
+int dmin=0,dmax,br=0,once=1,brm=1,addr;
 //! \ingroup TLibEncoder
 //! \{
 
@@ -471,8 +468,6 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
   
   thr=0; allthr=0; dep=0; mdep=0;//Âk0dmin &dmax
   
-
-
   if(uiDepth<dmin)br=0;
   else if(uiDepth>=dmin || uiDepth==0 )br=1;
   
@@ -527,8 +522,7 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
 		//if(uiDepth==0)once=1;
 		//else once=0;
 
-		//  Method1
-	/*	if(uiDepth==0 && rpcBestCU->getAddr()>0)
+		if(uiDepth==0 && rpcBestCU->getAddr()>0)
 		{
 			if(rpcTempCU->getCULeft() && rpcTempCU->getCUAbove() && rpcTempCU->getCUAboveLeft())
 			{
@@ -551,10 +545,8 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
 		
 		//if(uiDepth==0)once=0;
 		}
-		*/
 		
-
-
+		
 		//else if(uiDepth==0 && once==0)once=1;
 		//printf("rpcTempCU->getAddr()=%d\n",rpcTempCU->getAddr());
 		/*if(rpcTempCU->getAddr()>=1){
@@ -931,7 +923,6 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
     iMaxQP  = Clip3( MIN_QP, MAX_QP, qp);
   }
 #endif
-  /////////////////
   if ( rpcBestCU->getSlice()->getSliceType() != I_SLICE  ){
 	if(uiDepth>0 && uiDepth<dmin)
 	{
@@ -950,7 +941,7 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
 		 rpcTempCU->setCUTransquantBypassSubParts( m_pcEncCfg->getCUTransquantBypassFlagValue(), 0, uiDepth ); 
 	}
   }
-///////////////////////////
+
   for (Int iQP=iMinQP; iQP<=iMaxQP; iQP++)
   {
     if (isAddLowestQP && (iQP == iMinQP))
@@ -959,10 +950,10 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
     }
     rpcTempCU->initEstData( uiDepth, iQP );
 
-	if(uiDepth < dmax) brm=1;
-	if(uiDepth == dmax) brm=0;
 	
-	//if(uiDepth == 0) brm=1;
+	if(uiDepth == dmax) brm=0;
+	if(uiDepth < dmax) brm=1;
+	if(uiDepth == 0) brm=1;
     // further split
     if( bSubBranch && bTrySplitDQP && uiDepth < g_uiMaxCUDepth - g_uiAddCUDepth && brm)// && uiDepth!=2
 	{
@@ -1225,10 +1216,10 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, UInt u
 	fclose(Data_RDfinal);}
 }*/
 	   if ( rpcBestCU->getSlice()->getSliceType() != I_SLICE  ){
-//	printf("rpcTempCU->getAddr()=%d\n",rpcBestCU->getAddr());
-  //  printf("rpcBestCU->getTotalCost()==============%f\n",rpcBestCU->getCUColocated(REF_PIC_LIST_0)->getTotalCost());
-	//printf("rpcBestCU->getTotalCost()==============%f\n",rpcBestCU->getTotalCost());
-	//	system("pause");
+	printf("rpcTempCU->getAddr()=%d\n",rpcBestCU->getAddr());
+    printf("rpcBestCU->getTotalCost()==============%f\n",rpcBestCU->getCUColocated(REF_PIC_LIST_0)->getTotalCost());
+	printf("rpcBestCU->getTotalCost()==============%f\n",rpcBestCU->getTotalCost());
+		system("pause");
 	   }
 
   xCopyYuv2Pic( rpcBestCU->getPic(), rpcBestCU->getAddr(), rpcBestCU->getZorderIdxInCU(), uiDepth, uiDepth, rpcBestCU, uiLPelX, uiTPelY );   // Copy Yuv data to picture Yuv

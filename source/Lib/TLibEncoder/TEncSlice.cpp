@@ -68,12 +68,7 @@ extern	int rdyd;
 extern	int rdnd;
 int ta=0,tb=0,tc=0,td=0;
 int maxd,mind;
-int dpremaxl,dpremaxu,dpremaxlu,dpremaxco;
-double Dpred=0.0;
-int templ=0,tempu=0,templu=0,tempco=0;
 extern	double a,b,c,d,temp;
-int dmin=0,dmax;
-int i=0;
 extern	double t0,t16,t32,t48,t64,t80,t96,t112,t128,t144,t160,t176,t192,t208,t224,t240; 
 //! \ingroup TLibEncoder
 //! \{
@@ -1081,48 +1076,7 @@ Void TEncSlice::compressSlice( TComPic*& rpcPic )
 #endif
       }
 #endif
-		
-	dpremaxl=0,dpremaxu=0,dpremaxlu=0,dpremaxco=0;
 
-	if(pcCU->getSlice()->getSliceType() != I_SLICE  && pcCU->getAddr()>1 && pcCU->getPic()->getPOC()>1)
-	{
-		if(pcCU->getCULeft() && pcCU->getCUAbove() && pcCU->getCUAboveLeft())
-		{
-			for(i=0;i<256;i++)
-			{	
-				templ=pcCU->getCULeft()->getDepth(i);
-				if(templ>=dpremaxl) dpremaxl=pcCU->getCULeft()->getDepth(i);
-
-				tempu=pcCU->getCUAbove()->getDepth(i);
-				if(tempu>=dpremaxu) dpremaxu=pcCU->getCUAbove()->getDepth(i);
-
-				templu=pcCU->getCUAboveLeft()->getDepth(i);
-				if(templu>=dpremaxlu) dpremaxlu=pcCU->getCUAboveLeft()->getDepth(i);
-
-				tempco=pcCU->getCUColocated(REF_PIC_LIST_0)->getDepth(i);
-				if(tempco>=dpremaxco) dpremaxco=pcCU->getCUColocated(REF_PIC_LIST_0)->getDepth(i);
-
-			}
-
-				Dpred = (dpremaxl*0.3) + (dpremaxu*0.3) + (dpremaxco*0.3) + (dpremaxlu*0.1);
-				
-				if(Dpred==0){ dmin=0; dmax=0;}
-				
-				if(Dpred<0.5){ dmin=0; dmax=1;}
-
-				if(0.5<Dpred && Dpred<=1.5){ dmin=0; dmax=2;}
-
-				if(1.5<Dpred && Dpred<=2.5){ dmin=1; dmax=3;}
-
-				if(Dpred>2.5){ dmin=2; dmax=3;}
-			
-		}	
-		if(pcCU->getAddr()==9){
-			system("pause");
-		}
-	}
-	
-    
       // run CU encoder
       m_pcCuEncoder->compressCU( pcCU );
 /*      

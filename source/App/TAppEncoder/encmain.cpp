@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
 
 
 
-  for(Qpset=0;Qpset<4;Qpset++){
+  for(Qpset=0;Qpset<1;Qpset++){
 
   TAppEncTop  cTAppEncTop;
 
